@@ -13,8 +13,8 @@ export const makeObservable = (obj, callback) => {
 
   return new Proxy(copy, {
     set(target, prop, value) {
-      callback(prop, value, target[prop]);
       target[prop] = value;
+      callback(prop, value, target[prop]);
       return true;
     },
   });

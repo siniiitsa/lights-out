@@ -32,8 +32,14 @@ const initialState = {
   },
 };
 
+const isCell = (elem) => !!elem.dataset.id;
+
+const getCellId = (cell) => cell.dataset.id;
+
 const app = () => {
-  const state = makeObservable(initialState);
+  const state = makeObservable(initialState, (prop, newVal, oldVal) => {
+    renderBoard(state.board, elems.gameContainer);
+  });
 
   const elems = {
     gameContainer: document.querySelector('#game'),
@@ -43,6 +49,20 @@ const app = () => {
     renderBoard(state.board, elems.gameContainer);
   };
 
+  elems.gameContainer.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const { target } = e;
+
+    if (isCell(target)) {
+      const id = getCellId(target);
+      const currentValue = state.board[id];
+      const newValue = currentValue === 0 ? 1 : 0;
+      state.board[id] = newValue;
+    }
+  });
+
   init();
 };
+
 app();
