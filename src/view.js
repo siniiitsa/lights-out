@@ -1,7 +1,6 @@
-export const renderBoard = (board, container) => {
-  console.log(board, container);
+export const renderBoard = (board, boardElem) => {
   const ids = Object.keys(board);
-  const size = +ids[ids.length - 1].split(':')[0];
+  const size = +ids[ids.length - 1].split(':')[0] + 1;
 
   let boardHTML = '';
 
@@ -17,7 +16,13 @@ export const renderBoard = (board, container) => {
     boardHTML += row;
   }
 
-  boardHTML = `<div id="board" class="board">${boardHTML}<div>`;
+  boardElem.innerHTML = boardHTML;
+};
 
-  container.innerHTML = boardHTML;
+export const renderInfo = (moves, infoElem) => {
+  infoElem.querySelector('#moves').innerHTML = `Moves: ${moves}`;
+};
+
+export const renderWin = (winElem) => {
+  winElem.innerHTML = 'Winer!';
 };

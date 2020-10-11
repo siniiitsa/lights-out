@@ -1,19 +1,19 @@
 import './style.css';
 import { makeObservable } from './observer.js';
-import { renderBoard } from './view.js';
+import { renderBoard, renderInfo, renderWin } from './view.js';
 
 const initialState = {
   board: {
-    '0:0': 0,
-    '0:1': 0,
-    '0:2': 0,
-    '0:3': 0,
-    '0:4': 0,
+    '0:0': 1,
+    '0:1': 1,
+    '0:2': 1,
+    '0:3': 1,
+    '0:4': 1,
     '1:0': 0,
-    '1:1': 0,
+    '1:1': 1,
     '1:2': 0,
     '1:3': 0,
-    '1:4': 0,
+    '1:4': 1,
     '2:0': 0,
     '2:1': 0,
     '2:2': 0,
@@ -30,35 +30,71 @@ const initialState = {
     '4:3': 0,
     '4:4': 0,
   },
+  win: false,
+  moves: 0,
 };
 
 const isCell = (elem) => !!elem.dataset.id;
 
 const getCellId = (cell) => cell.dataset.id;
 
+const makeId = (y, x) => `${y}:${x}`;
+
+const isWin = (board) => {
+  const values = Object.values(board);
+  console.log(values);
+  return !values.includes(1);
+};
+
+const updateBoard = (state, id) => {
+  state.moves++;
+
+  const [y, x] = id.split(':').map(Number);
+  const ids = [
+    id,
+    makeId(y - 1, x),
+    makeId(y + 1, x),
+    makeId(y, x - 1),
+    makeId(y, x + 1),
+  ];
+
+  ids.forEach((id) => {
+    const currentValue = state.board[id];
+    if (currentValue === undefined) return;
+    const newValue = currentValue === 0 ? 1 : 0;
+    state.board[id] = newValue;
+  });
+
+  if (isWin(state.board)) {
+    state.win = true;
+  }
+};
+
 const app = () => {
   const state = makeObservable(initialState, (prop, newVal, oldVal) => {
-    renderBoard(state.board, elems.gameContainer);
+    renderBoard(state.board, elems.board);
+    renderInfo(state.moves, elems.info);
+    if (state.win) renderWin(elems.winner);
   });
 
   const elems = {
-    gameContainer: document.querySelector('#game'),
+    container: document.querySelector('#game'),
+    board: document.querySelector('#board'),
+    info: document.querySelector('#game-info'),
+    winner: document.querySelector('#winner'),
   };
 
   const init = () => {
-    renderBoard(state.board, elems.gameContainer);
+    renderBoard(state.board, elems.board);
   };
 
-  elems.gameContainer.addEventListener('click', (e) => {
+  elems.container.addEventListener('click', (e) => {
     e.preventDefault();
 
     const { target } = e;
 
     if (isCell(target)) {
-      const id = getCellId(target);
-      const currentValue = state.board[id];
-      const newValue = currentValue === 0 ? 1 : 0;
-      state.board[id] = newValue;
+      updateBoard(state, getCellId(target));
     }
   });
 
