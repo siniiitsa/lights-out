@@ -4,6 +4,10 @@
   /* font-size: 0; */
 }
 
+body {
+  font-family: 'Grandstander', cursive;
+}
+
 .board {
   background-color: grey;
   margin: 0 auto;
@@ -27,4 +31,64 @@
 h1 {
   font-size: 40px;
   text-align: center;
+}
+
+/* NEW STYLES */
+.background {
+  height: 100vh;
+  background-color: #0e2340;
+}
+
+.header {
+  padding: 20px 0;
+}
+
+.logo {
+  margin: 0 auto;
+  height: 188px;
+  width: 417px;
+  background: url(/assets/img/logo.png) no-repeat;
+  background-size: contain;
+}
+
+.settings {
+  padding-top: 50px;
+}
+
+.radio {
+  position: relative;
+  top: 3px;
+  width: 30px;
+  height: 30px;
+}
+
+.game-settings {
+  text-align: center;
+  font-size: 35px;
+}
+
+.game-settings section {
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.game-settings section h2 {
+  font-size: 40px;
+}
+
+.button_start {
+  padding-top: 5px;
+  cursor: pointer;
+  width: 160px;
+  height: 60px;
+  font-size: 30px;
+  background-color: transparent;
+  color: rgba(120, 239, 177, 0.98);
+  border: 1px solid rgba(120, 239, 177, 0.98);
+  border-radius: 4px;
+  box-shadow: 0 0 2px 2px rgba(19, 240, 76, 0.69),
+    inset 0 0 2px 2px rgba(19, 240, 76, 0.69);
+  text-shadow: 0 0 5px rgba(19, 240, 76, 0.69);
+  /* inset 0 0 2px 2px rgba(19, 240, 76, 0.69); */
 }
